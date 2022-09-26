@@ -1,6 +1,7 @@
+import { useInView } from "framer-motion";
 import Image from "next/image";
-import React from "react";
-import HeroMobile from "../Assets/HeroMobile.png";
+import { useRef } from "react";
+import HeroMobile from "../Assets/HeroMobile.webp";
 
 const listMark = [
   { id: 1, desc: "Received 99% off the earnings." },
@@ -9,9 +10,12 @@ const listMark = [
 ];
 
 export default function Hero() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
+
   return (
-    <div className="h-[100vh] w-full px-4 pt-4 bg-[#F0EEEB] ">
-      <div className="max-h-[20rem] max-w-[360px] h-full w-full relative  mx-auto">
+    <div className="h-full w-full px-4 py-4 bg-[#F0EEEB] ">
+      <div className="min-h-[20rem] max-w-[360px] h-full w-full relative  mx-auto">
         <Image
           src={HeroMobile}
           layout="fill"
@@ -20,17 +24,23 @@ export default function Hero() {
         />
       </div>
       <div className="max-w-[360px] mx-auto">
-        <h1 className="text-2xl font-bold">
+        <h1 className="text-2xl font-bold" ref={ref}>
           Share your unfiltered thoughts. Get paid.
         </h1>
         <p className="text-[#736E60] leading-snug text-[0.78rem] py-3">
           Spense is an open platform for individuals to share their unfiltered
-          thoughts. Discuss the topics you love, and get paid for doing just
+          thoughts. Discuss the topics you love, and get paid for doing{" "}
+          <i>just </i>
           that.
         </p>
         <div className="flex flex-col gap-y-1">
-          {listMark.map((e) => (
-            <div key={e.id} className="grid grid-cols-10 items-center">
+          {listMark.map((e, i) => (
+            <div
+              key={e.id}
+              className={`grid grid-cols-10 items-center delay-${
+                200 * (i + 1)
+              } ${inView ? "opacity-100" : "opacity-0 translate-x-[-50px]"}`}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
